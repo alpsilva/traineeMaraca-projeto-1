@@ -17,7 +17,10 @@ float v = 0.5; //movimento
 float vw = 0.5; //velocidade angular
 float vkx = 1.0; //força do chute
 float vkz = 0.0; //altura do chute(acho)
-unsigned int microsecond = 1000000; //1 segundo
+
+unsigned int microsecond = 1000000; //1 segundo em microsegundos
+int seconds = 1; //Seletor de espaçamentos
+unsigned int secs = seconds * microsecond; //segundos selecionados em microssegundos
 
 int main(int argc, char *argv[])
 {
@@ -50,13 +53,14 @@ int main(int argc, char *argv[])
         c1 = qPow(c1, 2);
         c2 = qPow(c2, 2);
         float d = qSqrt(c1 + c2);
+        std::cout << "Distância para a bola: " << d << std::endl;
 
         //calcula velocidade v necessária para chegar na bola
-        v = d / microsecond;
+        v = d / (secs / 1000000);
 
         //Aciona o robô para ir em frente, com o spinner ligado para segurar a bola
         actuator->sendCommand(isYellow, chosenID, v, 0, 0, 0, 0, true);
-        usleep(microsecond);//sleeps for 1 second
+        usleep(secs);//sleeps for 1 second
         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, true);
 
     };
@@ -79,7 +83,7 @@ int main(int argc, char *argv[])
 
         //Faz o robô chutar!
         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, vkx, vkz, false);
-        usleep(microsecond);//sleeps for 1 second
+        usleep(secs);//sleeps for 1 second
         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, false);
 
     };
@@ -117,12 +121,11 @@ int main(int argc, char *argv[])
         char modo = '0';
         cin >> modo;
         if (modo == 'a'){
-
+            std::cout << "O amarelo 3 ficará chutando ao gol!" << std::endl;
+            //Definição do robô atacante: amarelo 3
+            bool isYellow = true;
+            int chosenID = 3;
             while (true){
-
-                //Definição do robô atacante: amarelo 3
-                bool isYellow = true;
-                int chosenID = 3;
 
                 //run vision module
                 vision->run();
@@ -165,24 +168,24 @@ int main(int argc, char *argv[])
 
                     if (command == 'w'){
                         actuator->sendCommand(isYellow, chosenID, v, 0, 0, 0, 0, spinner);
-                        usleep(microsecond);//sleeps for 1 second
+                        usleep(secs);//sleeps for 1 second
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, spinner);
                     } else if (command == 'a') {
                         actuator->sendCommand(isYellow, chosenID, 0, v, 0, 0, 0, spinner);
-                        usleep(microsecond);//sleeps for 1 second
+                        usleep(secs);//sleeps for 1 second
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, spinner);
                     } else if (command == 's') {
                         actuator->sendCommand(isYellow, chosenID, -v, 0, 0, 0, 0, spinner);
-                        usleep(microsecond);//sleeps for 1 second
+                        usleep(secs);//sleeps for 1 second
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, spinner);
                     } else if (command == 'd') {
                         actuator->sendCommand(isYellow, chosenID, 0, -v, 0, 0, 0, spinner);
-                        usleep(microsecond);//sleeps for 1 second
+                        usleep(secs);//sleeps for 1 second
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, spinner);
                     } else if (command == 'z') {
                         //Faz o robô chutar!
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, vkx, vkz, false);
-                        usleep(microsecond);//sleeps for 1 second
+                        usleep(secs);//sleeps for 1 second
                         actuator->sendCommand(isYellow, chosenID, 0, 0, 0, 0, 0, spinner);
                     } else if (command == 'x') {
                         //Liga/desliga o spinner o spinner
