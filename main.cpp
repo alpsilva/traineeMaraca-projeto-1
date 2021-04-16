@@ -84,17 +84,7 @@ int main(int argc, char *argv[])
 
     };
 
-    while (true){
-        //Definição do robô atacante: amarelo 3
-        bool isYellow = true;
-        int chosenID = 3;
 
-        //run vision module
-        vision->run();
-
-        pickBall(vision, isYellow, chosenID);
-        kickToGoal(vision, isYellow, chosenID);
-    }
 
 /*
     while(true){
@@ -128,7 +118,20 @@ int main(int argc, char *argv[])
         cin >> modo;
         if (modo == 'a'){
 
-        } else if (modo = 'm'){
+            while (true){
+
+                //Definição do robô atacante: amarelo 3
+                bool isYellow = true;
+                int chosenID = 3;
+
+                //run vision module
+                vision->run();
+
+                pickBall(vision, isYellow, chosenID);
+                kickToGoal(vision, isYellow, chosenID);
+            }
+
+        } else if (modo == 'm'){
             while (true){
                 //selecionar time
                 bool isYellow;
